@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vn">
+<% include layout/head.ejs %>
+<body>
+<div class="container">
+    <div class="row">
+        <form action="/users/update/<%= user.id %>" method="POST" >
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <label for="inputName">Name</label>
+                    <input type="text" class="form-control" id="inputName" name="name" value="<%= user.name %>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">Gender</label>
+                    <select id="inputState" class="form-control" name="gender">
+                        <% if (user.gender == 'Male'){ %>
+                            <option>Male</option>
+                            <option>Female</option>
+                        <% }else{ %>
+                            <option>Female</option>
+                            <option>Male</option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputBirthday">Birth Day</label>
+                <input type="date" class="form-control" id="inputBirthday" name="birthday"
+                       value="<%= user.birthday %>">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" name="address" value="<%= user.address %>">
+            </div>
+            <!--            <div class="form-group">-->
+            <!--                <label for="inputImage col-md-12">Image</label>-->
+            <!--                <input type="file" class="form-control" id="inputImage">-->
+            <!--            </div>-->
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <a type="submit" href="/users" class="btn btn-primary">View List</a>
+        </form>
+    </div>
+</div>
+
+</body>
+<% include layout/footer.ejs %>
+</html>

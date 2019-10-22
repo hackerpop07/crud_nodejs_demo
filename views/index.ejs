@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vn">
+<% include layout/head.ejs %>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="form-group">
+            <h1 class="text-center">View List</h1>
+            <a type="button" class="btn btn-primary" href="/users/create">ADD</a>
+            <table class="table ">
+                <thead>
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">BirthDay</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% users.forEach((entry) => { %>
+                    <tr ondblclick="handleUpdateProduct('<%= entry.id %>')">
+                        <!--                    <td><%= entry.urlImage %></td>-->
+                        <td><a href=""><%= entry.name %></a></td>
+                        <td><%= entry.birthday %></td>
+                        <td><%= entry.address %></td>
+                        <td><%= entry.gender %></td>
+                        <td>
+                            <a href="/users/update/<%= entry.id %>" type="button"
+                               class="btn btn-outline-warning">Edit</a>
+                            <a href="/users/delete/<%= entry.id %>" class="btn btn-outline-danger"
+                               onclick="return confirm('Do you want to delete?');">Delete</a>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    function handleDeleteProduct(value) {
+        $(location).attr('href', '/users/delete/' + value);
+    }
+</script>
+<% include layout/footer.ejs %>
+</html>
