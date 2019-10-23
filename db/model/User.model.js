@@ -21,8 +21,7 @@ UserSchema = new Schema({
         require: true
     },
     urlImage: {
-        type: String,
-        require: true
+        type: String
     }
 });
 // UserSchema.path('birthday').set((day) => {

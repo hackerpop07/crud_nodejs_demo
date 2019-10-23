@@ -21,7 +21,7 @@
                 <tbody>
                 <% users.forEach((entry) => { %>
                     <tr ondblclick="handleUpdateProduct('<%= entry.id %>')">
-                        <!--                    <td><%= entry.urlImage %></td>-->
+                        <td><img src="<%= `/images/${entry.urlImage}` %>" style="width: 50px"></td>
                         <td><a href=""><%= entry.name %></a></td>
                         <td><%= entry.birthday %></td>
                         <td><%= entry.address %></td>

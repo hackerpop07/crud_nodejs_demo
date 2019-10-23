@@ -1,7 +1,7 @@
 const User = require('../db/model/User.model');
+const fs = require('fs');
 // var multer = require('multer');
 // var upload = multer().single('file');
-
 
 
 module.exports = {
@@ -19,25 +19,38 @@ module.exports = {
         res.render('create');
     },
     store: function (req, res) {
-        let newUser = new User({
-            name: req.body.name,
-            birthday: req.body.birthday,
-            address: req.body.address,
-            gender: req.body.gender,
-        });
-        newUser.save()
-            .then(doc => {
-                res.redirect('/users')
+        if (req.files) {
+            console.log();
+            let file = req.files.file;
+            let filename = file.name.split('.')[0] + new Date(0) + '.' + file.name.split('.')[1];
+            file.mv("./public/images/" + filename, function (err) {
+                if (!err) {
+                    let newUser = new User({
+                        name: req.body.name,
+                        birthday: req.body.birthday,
+                        address: req.body.address,
+                        gender: req.body.gender,
+                        urlImage: filename
+                    });
+                    newUser.save()
+                        .then(doc => {
+                            res.redirect('/users')
+                        })
+                        .catch(err => {
+                            console.log('Error: ', err);
+                            throw err;
+                        })
+                } else {
+
+                }
             })
-            .catch(err => {
-                console.log('Error: ', err);
-                throw err;
-            })
+        }
     },
     delete: function (req, res) {
         let userId = req.params.userId;
         User.findByIdAndDelete(userId, (err, user) => {
             if (err) throw err;
+            fs.unlinkSync(`./public/images/${user.urlImage}`);
             res.redirect('/users');
         })
     },
@@ -49,21 +62,37 @@ module.exports = {
         });
     },
     update: function (req, res) {
-        let userId = req.params.userId;
-        User.findByIdAndUpdate(
-            {_id: userId},
-            {
-                $set: {
-                    name: req.body.name,
-                    birthday: req.body.birthday,
-                    address: req.body.address,
-                    gender: req.body.gender,
+        if (req.files) {
+            let file = req.files.file;
+            let filename = file.name.split('.')[0] + new Date() + '.' + file.name.split('.')[1];
+            file.mv("./public/images/" + filename, function (err) {
+                if (!err) {
+                    let userId = req.params.userId;
+                    let user = User.findById(userId, function (err, user) {
+                        if (err) throw err;
+                        fs.unlinkSync(`./public/images/${user.urlImage}`);
+                        user.set({
+                            name: req.body.name,
+                            birthday: req.body.birthday,
+                            address: req.body.address,
+                            gender: req.body.gender,
+                            urlImage: filename
+                        });
+                        user.save().then(doc => {
+                            res.redirect('/users')
+                        })
+                            .catch(err => {
+                                console.log('Error: ', err);
+                                throw err;
+                            });
+                    });
+                } else {
+
                 }
-            },
-            {useFindAndModify: false})
-            .then(doc => {
-                res.redirect('/users')
             })
+        }
+
+
     }
     // show: function (req, res) {
     //
