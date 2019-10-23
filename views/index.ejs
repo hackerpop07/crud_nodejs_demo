@@ -1,10 +1,21 @@
 <!doctype html>
 <html lang="vn">
 <% include layout/head.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 <body>
 <div class="container">
     <div class="row">
         <div class="form-group">
+            <input id="myInput" type="text" placeholder="Search..">
             <h1 class="text-center">View List</h1>
             <a type="button" class="btn btn-primary" href="/users/create">ADD</a>
             <table class="table ">
@@ -18,11 +29,11 @@
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                 <% users.forEach((entry) => { %>
                     <tr ondblclick="handleUpdateProduct('<%= entry.id %>')">
                         <td><img src="<%= `/images/${entry.urlImage}` %>" style="width: 50px"></td>
-                        <td><a href=""><%= entry.name %></a></td>
+                        <td><a href="/users/detail/<%= entry.id %>"><%= entry.name %></a></td>
                         <td><%= entry.birthday %></td>
                         <td><%= entry.address %></td>
                         <td><%= entry.gender %></td>
@@ -41,10 +52,6 @@
 </div>
 
 </body>
-<script>
-    function handleDeleteProduct(value) {
-        $(location).attr('href', '/users/delete/' + value);
-    }
-</script>
+
 <% include layout/footer.ejs %>
 </html>

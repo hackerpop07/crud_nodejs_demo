@@ -22,7 +22,8 @@ module.exports = {
         if (req.files) {
             console.log();
             let file = req.files.file;
-            let filename = file.name.split('.')[0] + new Date(0) + '.' + file.name.split('.')[1];
+            let filename = file.name.split('.')[0] + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+                + '.' + file.name.split('.')[1];
             file.mv("./public/images/" + filename, function (err) {
                 if (!err) {
                     let newUser = new User({
@@ -70,7 +71,9 @@ module.exports = {
                     let userId = req.params.userId;
                     let user = User.findById(userId, function (err, user) {
                         if (err) throw err;
-                        fs.unlinkSync(`./public/images/${user.urlImage}`);
+                        fs.unlink(`./public/images/${user.urlImage}`, () => {
+                            console.log('delete image done !!!')
+                        });
                         user.set({
                             name: req.body.name,
                             birthday: req.body.birthday,
@@ -93,8 +96,12 @@ module.exports = {
         }
 
 
+    },
+    show: function (req, res) {
+        let userId = req.params.userId;
+        User.findById(userId, function (err, user) {
+            if (err) throw err;
+            res.render('detail', {user: user});
+        });
     }
-    // show: function (req, res) {
-    //
-    // }
 };

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="vn">
+<% include layout/head.ejs %>
+<body>
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="media border p-3">
+            <img src="/images/<%= user.urlImage %>" alt="John Doe" class="mr-3 mt-3 rounded-circle"
+                 style="width:60px; height: 65px">
+            <div class="media-body">
+                <h4><%= user.name %></h4>
+                <p>BirthDay: <%= user.birthday %></p>
+                <p>Address: <%= user.address %></p>
+                <p>Gender: <%= user.gender %></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<% include layout/footer.ejs %>
+</html>
