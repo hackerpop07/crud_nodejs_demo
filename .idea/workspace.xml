@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0dec6f53-1f51-4af4-a33e-929581b05f66" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/views/detail.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/csv.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/Screenshot from 2019-10-21 09-08-46633lrel4dll10g2cp43d0sctvo.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/user.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/user.router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/create.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/create.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/edit.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/edit.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/layout/head.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout/head.ejs" afterDir="false" />
     </list>
@@ -62,7 +68,11 @@
       <workItem from="1571725710825" duration="10495000" />
       <workItem from="1571799070619" duration="26000" />
       <workItem from="1571799171957" duration="6884000" />
-      <workItem from="1571812808323" duration="4098000" />
+      <workItem from="1571812808323" duration="7014000" />
+      <workItem from="1571822660909" duration="2121000" />
+      <workItem from="1571878325064" duration="11968000" />
+      <workItem from="1571898480539" duration="3759000" />
+      <workItem from="1571907947063" duration="1699000" />
     </task>
     <servers />
   </component>

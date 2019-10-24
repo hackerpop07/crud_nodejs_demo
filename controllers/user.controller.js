@@ -1,12 +1,23 @@
 const User = require('../db/model/User.model');
+const flash = require('req-flash');
 const fs = require('fs');
-// var multer = require('multer');
-// var upload = multer().single('file');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const {check, validationResult} = require('express-validator');
+const csvWriter = createCsvWriter({
+    path: 'out.csv',
+    header: [
+        {id: 'name', title: 'Name'},
+        {id: 'birthday', title: 'Birth Day'},
+        {id: 'address', title: 'Address'},
+        {id: 'gender', title: 'Gender'},
+        {id: 'urlImage', title: 'Image'},
+    ]
+});
 
 
 module.exports = {
     getAll: function (req, res) {
-        User.find({})
+        User.find({}).limit(6)
             .then(users => {
                 res.render('index', {users: users})
             })
@@ -16,11 +27,14 @@ module.exports = {
             })
     },
     create: function (req, res) {
-        res.render('create');
+        res.render('create', {errors: []});
     },
     store: function (req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render('create', {errors: errors.array()});
+        }
         if (req.files) {
-            console.log();
             let file = req.files.file;
             let filename = file.name.split('.')[0] + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
                 + '.' + file.name.split('.')[1];
@@ -35,7 +49,7 @@ module.exports = {
                     });
                     newUser.save()
                         .then(doc => {
-                            res.redirect('/users')
+                            res.redirect('/users');
                         })
                         .catch(err => {
                             console.log('Error: ', err);
@@ -59,11 +73,15 @@ module.exports = {
         let userId = req.params.userId;
         User.findById(userId, function (err, user) {
             if (err) throw err;
-            res.render('edit', {user: user});
+            res.render('edit', {user: user, errors: []});
         });
     },
     update: function (req, res) {
         if (req.files) {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.render('create', {errors: errors.array()});
+            }
             let file = req.files.file;
             let filename = file.name.split('.')[0] + new Date() + '.' + file.name.split('.')[1];
             file.mv("./public/images/" + filename, function (err) {
@@ -103,5 +121,22 @@ module.exports = {
             if (err) throw err;
             res.render('detail', {user: user});
         });
+    },
+    getCSV: function (req, res) {
+        res.render('csv');
+    },
+    exportCSV: function (req, res) {
+        User.find({})
+            .then(users => {
+
+                csvWriter
+                    .writeRecords(JSON.stringify(users))
+                    .then(() => console.log('The CSV file was written successfully'));
+                res.redirect('/users')
+            })
+            .catch(err => {
+                console.log('Error: ', err);
+                throw err;
+            })
     }
 };

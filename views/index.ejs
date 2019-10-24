@@ -15,9 +15,27 @@
 <div class="container">
     <div class="row">
         <div class="form-group">
+
+            <% if (typeof deletePostSuccessMsg != 'undefined' && deletePostSuccessMsg) { %>
+                <div class="alert alert-success"><%- deletePostSuccessMsg %></div>
+            <% } else if(typeof deletePostErrorMsg != 'undefined' && deletePostErrorMsg) { %>
+                <div class="alert alert-danger"><%- deletePostErrorMsg %></div>
+            <% } %>
+
             <input id="myInput" type="text" placeholder="Search..">
             <h1 class="text-center">View List</h1>
-            <a type="button" class="btn btn-primary" href="/users/create">ADD</a>
+            <div class="row">
+                <div class="col-sm-4">
+                    <a type="button" class="btn btn-primary" href="/users/create">ADD</a>
+
+                </div>
+                <div class="col-sm-5"></div>
+                <div class="custom-file col-sm-3">
+                    <input type="file" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Import CSV</label>
+                </div>
+            </div>
+
             <table class="table ">
                 <thead>
                 <tr>

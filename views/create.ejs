@@ -4,35 +4,49 @@
 <body>
 <div class="container ">
     <div class="row">
-        <form action="/users/create" method="POST" enctype="multipart/form-data">
-            <div class="form-row">
-                <div class="form-group col-md-8">
-                    <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+        <div class="col-md-6">
+            <form action="/users/create" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="inputName">Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState">Gender</label>
+                        <select id="inputState" class="form-control" name="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">Gender</label>
-                    <select id="inputState" class="form-control" name="gender">
-                        <option>Male</option>
-                        <option>Female</option>
-                    </select>
+                <div class="form-group">
+                    <label for="inputBirthday">Birth Day</label>
+                    <input type="date" class="form-control" id="inputBirthday" placeholder="Birth Day" name="birthday">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="inputBirthday">Birth Day</label>
-                <input type="date" class="form-control" id="inputBirthday" placeholder="Birth Day" name="birthday">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address">
-            </div>
-            <div class="form-group">
-                <label for="inputImage col-md-12">Image</label>
-                <input type="file" name="file" class="form-control" id="inputImage">
-            </div>
-            <button type="submit" class="btn btn-primary">ADD</button>
-            <a type="submit" href="/users" class="btn btn-primary">View List</a>
-        </form>
+
+                <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address">
+                </div>
+
+                <div class="custom-file form-group">
+                    <input type="file" class="custom-file-input" id="customFile" name="file">
+                    <label class="custom-file-label" for="customFile">Image</label>
+                </div>
+
+                </br>
+                <button type="submit" class="btn btn-primary">ADD</button>
+                <a type="submit" href="/users" class="btn btn-primary">View List</a>
+            </form>
+        </div>
+        <div class="col-md-6">
+            </br>
+            <% errors.forEach((item)=>{ %>
+                <div class="alert alert-danger">
+                    <strong><%- item.msg %></strong>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </div>
 
