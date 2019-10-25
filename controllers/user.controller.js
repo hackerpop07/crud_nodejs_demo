@@ -77,7 +77,7 @@ module.exports = {
         });
     },
     update: function (req, res) {
-        if (req.files) {
+        if (req.files.size != 'undefined') {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.render('create', {errors: errors.array()});
@@ -128,7 +128,6 @@ module.exports = {
     exportCSV: function (req, res) {
         User.find({})
             .then(users => {
-
                 csvWriter
                     .writeRecords(JSON.stringify(users))
                     .then(() => console.log('The CSV file was written successfully'));
