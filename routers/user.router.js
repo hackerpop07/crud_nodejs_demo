@@ -21,6 +21,7 @@ router.post('/update/:userId', [
 router.get('/delete/:userId', userController.delete);
 router.get('/detail/:userId', userController.show);
 router.get('/csv', userController.getCSV);
+router.post('/csv', userController.importCSV);
 router.get('/exportCSV', userController.exportCSV);
 
 

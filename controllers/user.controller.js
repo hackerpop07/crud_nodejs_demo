@@ -1,5 +1,7 @@
 const User = require('../db/model/User.model');
 const flash = require('req-flash');
+const {Parser} = require('json2csv');
+const csv = require('csv-parser');
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const {check, validationResult} = require('express-validator');
@@ -36,8 +38,7 @@ module.exports = {
         }
         if (req.files) {
             let file = req.files.file;
-            let filename = file.name.split('.')[0] + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-                + '.' + file.name.split('.')[1];
+            let filename = file.name.split('.')[0] + Date.now() + '.' + file.name.split('.')[1];
             file.mv("./public/images/" + filename, function (err) {
                 if (!err) {
                     let newUser = new User({
@@ -65,7 +66,11 @@ module.exports = {
         let userId = req.params.userId;
         User.findByIdAndDelete(userId, (err, user) => {
             if (err) throw err;
-            fs.unlinkSync(`./public/images/${user.urlImage}`);
+            try {
+                fs.unlinkSync(`./public/images/${user.urlImage}`);
+            } catch (e) {
+                console.log(e);
+            }
             res.redirect('/users');
         })
     },
@@ -83,7 +88,7 @@ module.exports = {
                 return res.render('create', {errors: errors.array()});
             }
             let file = req.files.file;
-            let filename = file.name.split('.')[0] + new Date() + '.' + file.name.split('.')[1];
+            let filename = file.name.split('.')[0] + Date.now() + '.' + file.name.split('.')[1];
             file.mv("./public/images/" + filename, function (err) {
                 if (!err) {
                     let userId = req.params.userId;
@@ -112,8 +117,6 @@ module.exports = {
                 }
             })
         }
-
-
     },
     show: function (req, res) {
         let userId = req.params.userId;
@@ -125,13 +128,46 @@ module.exports = {
     getCSV: function (req, res) {
         res.render('csv');
     },
+    importCSV: function (req, res) {
+        fs.createReadStream(req.files.file.tempFilePath)
+            .pipe(csv())
+            .on('data', function (data) {
+                try {
+                    let users = [data];
+                    console.log(users);
+                    // for (let index in data) {
+                    //     console.log(data['name']);
+                    //     let newUser = new User({
+                    //         name: data['name'],
+                    //         birthday: data['birthday'],
+                    //         address: data['address'],
+                    //         gender: data['gender'],
+                    //         urlImage: data['urlImage']
+                    //     });
+                    //     newUser.save()
+                    //         .then(doc => {
+                    //             res.redirect('/users');
+                    //         })
+                    //         .catch(err => {
+                    //             console.log('Error: ', err);
+                    //             throw err;
+                    //         })
+                    // }
+                } catch (err) {
+                    console.log('Error: ', err);
+                    throw err;
+                }
+            });
+    },
     exportCSV: function (req, res) {
         User.find({})
             .then(users => {
-                csvWriter
-                    .writeRecords(JSON.stringify(users))
-                    .then(() => console.log('The CSV file was written successfully'));
-                res.redirect('/users')
+                var fields = ['_id', 'name', 'birthday', 'address', 'gender', 'urlImage'];
+                const json2csvParser = new Parser({fields});
+                const csv = json2csvParser.parse(users);
+                res.attachment('filename.csv');
+                res.status(200).send(csv);
+                res.redirect('/users');
             })
             .catch(err => {
                 console.log('Error: ', err);

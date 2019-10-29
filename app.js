@@ -34,6 +34,7 @@ app.set('view engine', 'ejs');
 //routers import
 const user = require('./routers/user.router');
 app.use('/users', user);
+
 app.use('*', (req, res) => {
     res.send('status:  404')
 });
