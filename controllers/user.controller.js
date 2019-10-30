@@ -132,31 +132,21 @@ module.exports = {
         fs.createReadStream(req.files.file.tempFilePath)
             .pipe(csv())
             .on('data', function (data) {
-                try {
-                    let users = [data];
-                    console.log(users);
-                    // for (let index in data) {
-                    //     console.log(data['name']);
-                    //     let newUser = new User({
-                    //         name: data['name'],
-                    //         birthday: data['birthday'],
-                    //         address: data['address'],
-                    //         gender: data['gender'],
-                    //         urlImage: data['urlImage']
-                    //     });
-                    //     newUser.save()
-                    //         .then(doc => {
-                    //             res.redirect('/users');
-                    //         })
-                    //         .catch(err => {
-                    //             console.log('Error: ', err);
-                    //             throw err;
-                    //         })
-                    // }
-                } catch (err) {
-                    console.log('Error: ', err);
-                    throw err;
-                }
+                let newUser = new User({
+                    name: data['name'],
+                    birthday: data['birthday'],
+                    address: data['address'],
+                    gender: data['gender'],
+                    urlImage: data['urlImage']
+                });
+                newUser.save()
+                    .then(doc => {
+                        res.redirect('/users');
+                    })
+                    .catch(err => {
+                        console.log('Error: ', err);
+                        throw err;
+                    });
             });
     },
     exportCSV: function (req, res) {
